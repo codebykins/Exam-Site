@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Exam Site</title>
+<style>
+body {font-family: Arial; max-width: 600px; margin: 40px auto; padding: 20px; background: #f0f4f8;}
+.card {background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px #ccc; margin-bottom: 15px;}
+button {background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;}
+button:hover {background: #45a049;}
+input[type=radio] {margin-right: 8px;}
+#result {font-size: 20px; font-weight: bold; margin-top: 20px;}
+</style>
+</head>
+<body>
+<h2>📝 Custom Exam Site</h2>
+<div id="quiz"></div>
+<button onclick="submitQuiz()">Submit Exam</button>
+<div id="result"></div>
+
+<script>
+// === CUSTOMIZE YOUR QUESTIONS HERE ===
+const questions = [
+  {
+    q: "What is the capital of Nigeria?",
+    options: ["Lagos", "Abuja", "Kano", "Ibadan"],
+    answer: "Abuja"
+  },
+  {
+    q: "Hooke's Law formula is?",
+    options: ["F = ma", "F = ke", "E = mc²", "V = IR"],
+    answer: "F = ke"
+  },
+  {
+    q: "Which form of energy is in food?",
+    options: ["Kinetic", "Chemical", "Sound", "Light"],
+    answer: "Chemical"
+  }
+];
+// =====================================
+
+function loadQuiz() {
+  const quizDiv = document.getElementById("quiz");
+  questions.forEach((q, i) => {
+    let html = `<div class="card"><p><b>Q${i+1}.</b> ${q.q}</p>`;
+    q.options.forEach(opt => {
+      html += `<label><input type="radio" name="q${i}" value="${opt}"> ${opt}</label><br>`;
+    });
+    html += `</div>`;
+    quizDiv.innerHTML += html;
+  });
+}
+
+function submitQuiz() {
+  let score = 0;
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (selected && selected.value === q.answer) score++;
+  });
+  document.getElementById("result").innerHTML = 
+    `You scored ${score} / ${questions.length} <br> ${score/questions.length >= 0.7 ? '🎉 Excellent!' : 'Keep practicing!'}`;
+}
+
+loadQuiz();
+</script>
+</body>
+</html>
